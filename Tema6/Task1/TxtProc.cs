@@ -1,0 +1,1 @@
+﻿public delegate string TxtProcessor(string text);

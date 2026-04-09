@@ -1,0 +1,26 @@
+﻿<Window x:Class="TaskManager.TaskWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Задача" Height="200" Width="300">
+
+    <StackPanel Margin="10">
+
+        <TextBox x:Name="TitleBox" Margin="5"/>
+
+        <ComboBox x:Name="PriorityBox" Margin="5">
+            <ComboBoxItem Content="Низкий"/>
+            <ComboBoxItem Content="Средний"/>
+            <ComboBoxItem Content="Высокий"/>
+        </ComboBox>
+
+        <ComboBox x:Name="StatusBox" Margin="5">
+            <ComboBoxItem Content="В работе"/>
+            <ComboBoxItem Content="Выполнено"/>
+            <ComboBoxItem Content="Отложено"/>
+        </ComboBox>
+
+        <Button Content="ОК"
+                Margin="5"
+                Click="Ok_Click"/>
+    </StackPanel>
+</Window>

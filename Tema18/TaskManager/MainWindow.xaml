@@ -1,0 +1,162 @@
+﻿<Window x:Class="TaskManager.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Task Manager" Height="500" Width="800">
+
+    <Window.InputBindings>
+        <KeyBinding Key="N" Modifiers="Control" Command="{Binding AddTaskCommand}" />
+        <KeyBinding Key="E" Modifiers="Control" Command="{Binding EditTaskCommand}" />
+        <KeyBinding Key="Delete" Command="{Binding DeleteTaskCommand}" />
+    </Window.InputBindings>
+
+    <Window.Resources>
+
+        <Storyboard x:Key="FadeInAnimation">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                             From="0" To="1"
+                             Duration="0:0:0.5"/>
+        </Storyboard>
+
+        <Storyboard x:Key="PulseAnimation" RepeatBehavior="Forever" AutoReverse="True">
+            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX"
+                             To="1.03" Duration="0:0:0.4"/>
+            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY"
+                             To="1.03" Duration="0:0:0.4"/>
+        </Storyboard>
+
+    </Window.Resources>
+
+    <DockPanel x:Name="MainGrid" Loaded="MainGrid_Loaded">
+
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="5">
+
+            <Button Content="Выйти" Click="Exit_Click" Margin="5"/>
+
+            <Button Content="Добавить" Command="{Binding AddTaskCommand}" Margin="5"/>
+            <Button Content="Редактировать" Command="{Binding EditTaskCommand}" Margin="5"/>
+            <Button Content="Удалить" Command="{Binding DeleteTaskCommand}" Margin="5"/>
+
+            <Separator Width="20"/>
+
+            <Button Content="Чат" Click="OpenChat_Click" Margin="5"/>
+            <Button Content="Сменить пользователя" Click="Logout_Click" Margin="5"/>
+
+        </StackPanel>
+
+        <Grid Margin="10">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="600"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <ListBox x:Name="TaskList"
+                     ItemsSource="{Binding Tasks}"
+                     SelectedItem="{Binding SelectedTask}"
+                     AllowDrop="True"
+                     PreviewMouseLeftButtonDown="Task_MouseDown"
+                     PreviewMouseMove="Task_MouseMove"
+                     Drop="Task_Drop"
+                     HorizontalContentAlignment="Stretch" Grid.ColumnSpan="3" Margin="10,0,10,0">
+
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        <Setter Property="Margin" Value="5"/>
+
+                        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                        <Setter Property="RenderTransform">
+                            <Setter.Value>
+                                <ScaleTransform/>
+                            </Setter.Value>
+                        </Setter>
+
+                        <Style.Triggers>
+
+                            <Trigger Property="IsSelected" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard Name="PulseSB" Storyboard="{StaticResource PulseAnimation}"/>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <StopStoryboard BeginStoryboardName="PulseSB"/>
+                                </Trigger.ExitActions>
+                            </Trigger>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.9"/>
+                            </Trigger>
+
+                        </Style.Triggers>
+
+                    </Style>
+                </ListBox.ItemContainerStyle>
+
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border CornerRadius="8"
+                Padding="10"
+                Margin="2"
+                HorizontalAlignment="Stretch">
+                            
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Background" Value="#333"/>
+
+                                    <Style.Triggers>
+
+                                        <DataTrigger Binding="{Binding Priority}" Value="Нулевой">
+                                            <Setter Property="Background" Value="Gray"/>
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding Priority}" Value="Низкий">
+                                            <Setter Property="Background" Value="#2e7d32"/>
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding Priority}" Value="Средний">
+                                            <Setter Property="Background" Value="#f9a825"/>
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding Priority}" Value="Высокий">
+                                            <Setter Property="Background" Value="#c62828"/>
+                                        </DataTrigger>
+
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="{Binding Title}" Foreground="White"/>
+                                <TextBlock Grid.Column="1" Text="{Binding Status}" Foreground="White"/>
+                                <TextBlock Grid.Column="2" Text="{Binding Priority}" Foreground="White"/>
+
+                            </Grid>
+
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+
+            </ListBox>
+
+            <Grid Background="#80000000"
+                  Grid.ColumnSpan="3"
+                  Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
+
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <TextBlock Text="Загрузка..." Foreground="White" Margin="0,0,0,10"/>
+                    <ProgressBar Width="200" Height="20" IsIndeterminate="True"/>
+                </StackPanel>
+
+            </Grid>
+
+        </Grid>
+
+    </DockPanel>
+</Window>

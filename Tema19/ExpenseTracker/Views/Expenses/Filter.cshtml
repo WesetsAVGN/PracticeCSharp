@@ -1,0 +1,24 @@
+﻿@model List<ExpenseTracker.Models.Expense>
+
+<h2>Фильтр по категории</h2>
+
+<table border="1">
+    <tr>
+        <th>Сумма</th>
+        <th>Категория</th>
+        <th>Дата</th>
+    </tr>
+
+    @foreach (var e in Model)
+    {
+        <tr>
+            <td>@e.Amount.ToString("0.00")</td>
+            <td>@e.Category</td>
+            <td>@e.Date.ToString("dd.MM.yyyy HH:mm")</td>
+        </tr>
+    }
+</table>
+
+<br />
+
+<a href="/Expenses/Index">Назад</a>

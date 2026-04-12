@@ -1,0 +1,23 @@
+﻿@model ExpenseTracker.Models.Expense
+
+<h2>Добавить расход</h2>
+
+<form method="post">
+
+    <p>
+        Сумма:
+        <input type="text" name="Amount" required />
+    </p>
+
+    <p>
+        Категория:
+        <input type="text" name="Category" required />
+    </p>
+
+    <button type="submit">Добавить</button>
+
+</form>
+
+<br />
+
+<a href="/Expenses/Index">Назад</a>

@@ -1,0 +1,57 @@
+﻿@model ExpenseTracker.Models.ExpenseViewModel
+
+<h2>Добавить расход</h2>
+
+<style>
+    .form-container {
+        max-width: 400px;
+        margin: 20px auto;
+    }
+
+    input {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        margin-bottom: 15px;
+    }
+
+    button {
+        padding: 10px;
+        width: 100%;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 5px;
+    }
+
+        button:hover {
+            background-color: #218838;
+        }
+</style>
+
+<div class="form-container">
+
+    <form method="post">
+
+        <label>Название</label>
+        <input asp-for="Title" />
+
+        <label>Сумма</label>
+        <input asp-for="Amount" />
+        <span asp-validation-for="Amount"></span>
+
+        <label>Категория</label>
+        <input asp-for="Category" />
+
+        <label>Дата</label>
+        <input asp-for="Date" type="date" />
+
+        <button type="submit">Добавить</button>
+
+    </form>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

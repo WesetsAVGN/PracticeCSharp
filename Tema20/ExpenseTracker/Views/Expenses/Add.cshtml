@@ -1,0 +1,31 @@
+﻿@model ExpenseTracker.Models.ExpenseViewModel
+
+<h2>Добавить расход</h2>
+
+<form method="post">
+
+    <p>
+        Сумма:
+        <input asp-for="Amount" />
+        <span asp-validation-for="Amount" style="color:red"></span>
+    </p>
+
+    <p>
+        Категория:
+        <input asp-for="Category" />
+        <span asp-validation-for="Category" style="color:red"></span>
+    </p>
+
+    <p>
+        Дата:
+        <input asp-for="Date" type="date" />
+        <span asp-validation-for="Date" style="color:red"></span>
+    </p>
+
+    <button type="submit">Добавить</button>
+
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

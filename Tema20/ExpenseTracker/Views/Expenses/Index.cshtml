@@ -1,0 +1,48 @@
+﻿@model List<ExpenseTracker.Models.Expense>
+
+<h2>Список расходов</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div style="color: green; margin-bottom: 10px;">
+        @TempData["Success"]
+    </div>
+}
+
+<style>
+    table {
+        border-collapse: collapse;
+        width: 600px;
+    }
+
+    th, td {
+        padding: 10px 20px;
+        text-align: left;
+        border-bottom: 1px solid #ccc;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+</style>
+
+<table>
+    <tr>
+        <th>Сумма</th>
+        <th>Категория</th>
+        <th>Дата</th>
+    </tr>
+
+    @foreach (var e in Model)
+    {
+        <tr>
+            <td>@e.Amount.ToString("0.00")</td>
+            <td>@e.Category</td>
+            <td>@e.Date.ToString("dd.MM.yyyy")</td>
+        </tr>
+    }
+</table>
+
+<br />
+
+<a href="/Expenses/Add">Добавить расход</a>
